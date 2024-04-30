@@ -30,7 +30,7 @@ response = requests.request("POST", url, headers=headers, data=payload)
 if response.status_code == 200:
     print('String sent successfully!')
     result = response.json()
-    content = result['content']['output']
+    content = result
     print('Feedback result:', content)
 else:
     print('Error:', response.status_code)
