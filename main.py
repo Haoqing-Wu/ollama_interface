@@ -36,23 +36,6 @@ class InputData(BaseModel):
         "top_k": 40,
         "top_p": 0.9
     }
-    '''
-    debug: bool = True
-    prompt: str
-    mirostat: int = 0
-    mirostat_eta: float = 0.1
-    mirostat_tau: float = 5.0
-    num_ctx: int = 2048
-    repeat_last_n: int = 64
-    repeat_penalty: float = 1.1
-    temperature: float = 0.8
-    seed: int = 0
-    stop: list = ["\n"]
-    tfs_z: int = 1
-    num_predict: int = 128
-    top_k: int = 40
-    top_p: float = 0.9
-    '''
 
 
 @app.post("/predictions")
@@ -87,7 +70,7 @@ def aigic(inputdata: InputData):
     response.pop('context')
     print('5. Output Info:', response)
 
-    if inputdata.debug == False:
+    if inputdata.input['debug'] == False:
         response.pop('created_at')
         response.pop('done')
         response.pop('total_duration')
