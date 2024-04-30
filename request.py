@@ -1,11 +1,31 @@
 import requests
+import json
 
-url = 'http://127.0.0.1:8090/aigic'
-response = requests.post(url, json={
-    'debug': True,
-    'prompt':"Explain the Newton's third law of motion. 100 words"
-    # more parameters can be added here see below
-    })
+url = 'http://127.0.0.1:5001/predictions'
+payload = json.dumps({
+  "input": {
+    "debug": True,
+    "prompt": "Who are you?",
+    "mirostat": 0,
+    "mirostat_eta": 0.1,
+    "mirostat_tau": 5.0,
+    "num_ctx": 2048,
+    "repeat_last_n": 64,
+    "repeat_penalty": 1.1,
+    "temperature": 0.8,
+    "seed": 0,
+    "stop": ["\n"],
+    "tfs_z": 1,
+    "num_predict": 128,
+    "top_k": 40,
+    "top_p": 0.9
+  }
+})
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+response = requests.request("POST", url, headers=headers, data=payload)
 
 if response.status_code == 200:
     print('String sent successfully!')
