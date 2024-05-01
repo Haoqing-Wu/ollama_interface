@@ -47,36 +47,36 @@ def health_check():
 @app.post("/predictions")
 def aigic(inputdata: InputData):
     print('+++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('1. Input prompt:', inputdata.input['prompt'])
+    print('1. Input prompt:', inputdata.input.prompt)
 
     print('2. Inferring ... ')
 
     # Prepare the data to send to localhost:11434/api/generate
     data = {
         "model": "llama3",
-        "prompt": inputdata.input['prompt'],
+        "prompt": inputdata.input.prompt,
         "stream": False,
         "options": {
-            "mirostat": inputdata.input['mirostat'],
-            "mirostat_eta": inputdata.input['mirostat_eta'],
-            "mirostat_tau": inputdata.input['mirostat_tau'],
-            "num_ctx": inputdata.input['num_ctx'],
-            "repeat_last_n": inputdata.input['repeat_last_n'],
-            "repeat_penalty": inputdata.input['repeat_penalty'],
-            "temperature": inputdata.input['temperature'],
-            "seed": inputdata.input['seed'],
-            "stop": inputdata.input['stop'],
-            "tfs_z": inputdata.input['tfs_z'],
-            "num_predict": inputdata.input['num_predict'],
-            "top_k": inputdata.input['top_k'],
-            "top_p": inputdata.input['top_p'],
+            "mirostat": inputdata.input.mirostat,
+            "mirostat_eta": inputdata.input.mirostat_eta,
+            "mirostat_tau": inputdata.input.mirostat_tau,
+            "num_ctx": inputdata.input.num_ctx,
+            "repeat_last_n": inputdata.input.repeat_last_,
+            "repeat_penalty": inputdata.input.repeat_penalt,
+            "temperature": inputdata.input.temperature,
+            "seed": inputdata.input.seed,
+            "stop": inputdata.input.stop,
+            "tfs_z": inputdata.input.tfs_z,
+            "num_predict": inputdata.input.num_predict,
+            "top_k": inputdata.input.top_k,
+            "top_p": inputdata.input.top_p,
         }
     }
     response = requests.post(generate_url, json=data).json()
     response.pop('context')
     print('5. Output Info:', response)
 
-    if inputdata.input['debug'] == False:
+    if inputdata.input.debug == False:
         response.pop('created_at')
         response.pop('done')
         response.pop('total_duration')
