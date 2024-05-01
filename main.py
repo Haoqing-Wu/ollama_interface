@@ -1,6 +1,6 @@
 import requests
 import json
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
@@ -17,27 +17,30 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"])  
-        
-class InputData(BaseModel):
-    input: dict = {
-        "debug": False,
-        "prompt": "string",
-        "mirostat": 0,
-        "mirostat_eta": 0.1,
-        "mirostat_tau": 5.0,
-        "num_ctx": 2048,
-        "repeat_last_n": 64,
-        "repeat_penalty": 1.1,
-        "temperature": 0.8,
-        "seed": 0,
-        "stop": ["\n"],
-        "tfs_z": 1,
-        "num_predict": 128,
-        "top_k": 40,
-        "top_p": 0.9
-    }
 
-@app.get("/health-ckeck")
+class Parameters(BaseModel):
+    debug: bool = Field(title="Debug", type="boolean", description="provide debugging output in logs", default=True)
+    prompt: str = Field(title="Prompt", type="string", description="Prompt to send to the model.")
+    mirostat: int = Field(title="Mirostat", type="integer", description="Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)", default=0)
+    mirostat_eta: float = 0.1
+    mirostat_tau: float = 5.0
+    num_ctx: int = 2048
+    repeat_last_n: int = 64
+    repeat_penalty: float = 1.1
+    temperature: float = 0.8
+    seed: int = 0
+    stop: list = ["\n"]
+    tfs_z: int = 1
+    num_predict: int = 128
+    top_k: int = 40
+    top_p: float = 0.9 
+
+class InputData(BaseModel):
+    input: Parameters = Field(title="Input")
+
+
+
+@app.get("/health-check")
 def health_check():
     return {"status": "True"}
 
