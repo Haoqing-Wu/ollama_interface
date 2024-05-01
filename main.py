@@ -22,18 +22,18 @@ class Parameters(BaseModel):
     debug: bool = Field(title="Debug", type="boolean", description="provide debugging output in logs", default=True)
     prompt: str = Field(title="Prompt", type="string", description="Prompt to send to the model.")
     mirostat: int = Field(title="Mirostat", type="integer", description="Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)", default=0)
-    mirostat_eta: float = 0.1
-    mirostat_tau: float = 5.0
-    num_ctx: int = 2048
-    repeat_last_n: int = 64
-    repeat_penalty: float = 1.1
-    temperature: float = 0.8
-    seed: int = 0
-    stop: list = ["\n"]
-    tfs_z: int = 1
-    num_predict: int = 128
-    top_k: int = 40
-    top_p: float = 0.9 
+    mirostat_eta: float = Field(title="Mirostat Eta", type="number", description="Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.", default=0.1)
+    mirostat_tau: float = Field(title="Mirostat Tau", type="number", description="Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text.", default=5.0)
+    num_ctx: int = Field(title="Number of context", type="integer", description="Sets the size of the context window used to generate the next token.", default=2048)
+    repeat_last_n: int = Field(title="Repeat last n", type="integer", description="Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)", default=64)
+    repeat_penalty: float = Field(title="Repeat penalty", type="number", description="Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)", default=1.1)
+    temperature: float = Field(title="Temperature", type="number", description="The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)", default=0.8)
+    seed: int = Field(title="Seed", type="integer", description="Seed for the random number generator. (Default: 0)", default=0)
+    stop: list = Field(title="Stop", type="array", description="List of tokens to stop generation at.", default=["\n"])
+    tfs_z: float = Field(title="TFS Z", type="number", description="Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)", default=1.0)
+    num_predict: int = Field(title="Number of predictions", type="integer", description="Number of tokens to predict at each step. (default: 128)", default=128)
+    top_k: int = Field(title="Top k", type="integer", description="Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative. (Default: 40)", default=40)
+    top_p: float = Field(title="Top p", type="number", description="Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)", default=0.9)
 
 class InputData(BaseModel):
     input: Parameters = Field(title="Input")
