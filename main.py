@@ -37,6 +37,9 @@ class InputData(BaseModel):
         "top_p": 0.9
     }
 
+@app.get("/health-ckeck")
+def health_check():
+    return {"status": "True"}
 
 @app.post("/predictions")
 def aigic(inputdata: InputData):
