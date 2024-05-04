@@ -73,7 +73,7 @@ def aigic(inputdata: InputData):
         }
     }
     response = requests.post(generate_url, json=data).json()
-    response.pop('context')
+    #response.pop('context')
     print('5. Output Info:', response)
 
     if inputdata.input.debug == False:
